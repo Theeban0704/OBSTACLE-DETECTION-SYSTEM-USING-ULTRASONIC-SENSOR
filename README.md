@@ -54,10 +54,43 @@ Step 7: Save Your Work
 
 ## Code:
 
+int LED1 = 12;
+int LED2 = 11;
+int buzzer = 10;
+int gas_sensor = A5;
+int sensorThreshold = 80;
+
+void setup(){
+  pinMode(LED1, OUTPUT);
+  pinMode(LED2, OUTPUT);
+  pinMode(buzzer, OUTPUT);
+  pinMode(gas_sensor, INPUT);
+  Serial.begin(9600);
+}
+void loop()
+{
+  int analogSensor = analogRead(gas_sensor);
+  Serial.print("SENSOR: ");
+  Serial.println(analogSensor);
+  
+  if(analogSensor > sensorThreshold)
+  {
+    digitalWrite(LED1 , HIGH);
+    digitalWrite(LED2 , LOW);
+    tone(buzzer,1000,350);
+  }
+  else
+  {
+    digitalWrite(LED1, LOW);
+    digitalWrite(LED2, HIGH);
+    noTone(buzzer);
+  }
+  delay(100);
+}
 
 ## Output:
- 
 
+ ![WhatsApp Image 2025-09-22 at 14 13 06_ecabfd4c](https://github.com/user-attachments/assets/9a3e6e22-47f6-47f5-8924-8a336f894579)
 
 ## Result
 
