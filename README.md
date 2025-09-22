@@ -54,43 +54,46 @@ Step 7: Save Your Work
 
 ## Code:
 
-int LED1 = 12;
-int LED2 = 11;
-int buzzer = 10;
-int gas_sensor = A5;
-int sensorThreshold = 80;
+#define trigPin  7
+#define echoPin  6
+int buzzer = 2;
 
-void setup(){
-  pinMode(LED1, OUTPUT);
-  pinMode(LED2, OUTPUT);
-  pinMode(buzzer, OUTPUT);
-  pinMode(gas_sensor, INPUT);
+
+void setup() {
   Serial.begin(9600);
+  pinMode(trigPin, OUTPUT);
+  pinMode(echoPin, INPUT);
+  
 }
+
 void loop()
 {
-  int analogSensor = analogRead(gas_sensor);
-  Serial.print("SENSOR: ");
-  Serial.println(analogSensor);
-  
-  if(analogSensor > sensorThreshold)
-  {
-    digitalWrite(LED1 , HIGH);
-    digitalWrite(LED2 , LOW);
-    tone(buzzer,1000,350);
+  long highPulseDuration;
+  int calculateDistancecm;
+  digitalWrite(trigPin, LOW);
+  delayMicroseconds(2);
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPin, LOW);
+  highPulseDuration = pulseIn(echoPin, HIGH);
+  calculateDistancecm =highPulseDuration*0.034/2;
+  Serial.print("Calculated Distance:");
+  Serial.print(calculateDistancecm);
+  Serial.println("cm");
+  if (calculateDistancecm <100){
+    digitalWrite(2,HIGH);
+    delay(1000);
+  }else{
+    digitalWrite(2,LOW);
+    delay(1000);
   }
-  else
-  {
-    digitalWrite(LED1, LOW);
-    digitalWrite(LED2, HIGH);
-    noTone(buzzer);
-  }
-  delay(100);
 }
 
 ## Output:
 
- ![WhatsApp Image 2025-09-22 at 14 13 06_ecabfd4c](https://github.com/user-attachments/assets/9a3e6e22-47f6-47f5-8924-8a336f894579)
+
+
+![WhatsApp Image 2025-09-22 at 14 22 55_eb7abb26](https://github.com/user-attachments/assets/770d891a-276b-47fd-8429-6c351d414f72)
 
 ## Result
 
